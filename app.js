@@ -3,6 +3,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 
+const Product = require("./models/product");
+const User = require("./models/user");
+
 const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
 
@@ -22,10 +25,15 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-// ? This will create sql table by looking at the models
+//? Mapping Relationships between User and Product
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Product);
 
+//? This will create sql table by looking at the models
+//? force: true ==> will create new table on every npm start
+//! Important: force: true ==> should only be used in Devlopment
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     //console.log(result);
   })
