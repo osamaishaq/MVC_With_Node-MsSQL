@@ -20,6 +20,19 @@ const shopRoutes = require("./routes/shop");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user;
+      console.log("lol");
+      next();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  console.log("lol 2");
+});
+
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
@@ -36,9 +49,17 @@ sequelize
   .sync({ force: true })
   .then((result) => {
     //console.log(result);
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({ name: "test", email: "test@testgmail.com" });
+    }
+    return user;
+  })
+  .then((user) => {
+    app.listen(3000);
   })
   .catch((error) => {
     console.log(error);
   });
-
-app.listen(3000);
