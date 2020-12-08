@@ -73,6 +73,8 @@
 //   }
 // };
 
+//? Implementing Cart by Sequelize
+
 const Sequelize = require("sequelize");
 
 const sequelize = require("../util/database");

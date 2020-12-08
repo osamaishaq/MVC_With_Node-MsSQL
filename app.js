@@ -52,8 +52,8 @@ Product.belongsToMany(Cart, { through: CartItem });
 //? force: true ==> will create new table on every npm start
 //! Important: force: true ==> should only be used in Devlopment
 sequelize
-  // .sync({ force: true })
-  .sync()
+  .sync({ force: true })
+  //.sync()
   .then((result) => {
     //console.log(result);
     return User.findByPk(1);
@@ -65,6 +65,9 @@ sequelize
     return user;
   })
   .then((user) => {
+    return user.createCart();
+  })
+  .then((cart) => {
     app.listen(3000);
   })
   .catch((error) => {

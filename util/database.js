@@ -20,7 +20,8 @@
 //   poolPromise,
 // };
 
-// Sequlize Implementaion
+//? Sequlize Implementaion
+
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("Test", "sa", "OsamaSQL", {
